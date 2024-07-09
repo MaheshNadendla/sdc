@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Weather Graph</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+      }
+      canvas {
+        display: block;
+        margin: 20px auto;
+      }
+      .input-container {
+        text-align: center;
+        margin: 20px;
+      }
+      .input-container input {
+        padding: 10px;
+        width: 80%;
+        max-width: 300px;
+        margin-right: 10px;
+      }
+      .input-container button {
+        padding: 10px 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Weather Graph</h1>
+      <div class="input-container">
+        <input type="text" id="cityInput" placeholder="Enter city name" />
+        <button id="fetchWeatherBtn">Get Weather</button>
+      </div>
+      <canvas id="weatherGraph" width="400" height="200"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const apiKey = "f27b269d54e4fa1e72993364a80fa8bd";
+
+        const fetchWeatherBtn = document.getElementById("fetchWeatherBtn");
+
+        fetchWeatherBtn.addEventListener("click", () => {
+          const city = document.getElementById("cityInput").value;
+          const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+          const fetchData = async () => {
+            try {
+              const response = await axios.get(apiUrl);
+              const weatherData = response.data;
+              updateGraph(weatherData.main.temp);
+            } catch (error) {
+              console.error("Error fetching weather data:", error.message);
+            }
+          };
+
+          const updateGraph = (temperature) => {
+            const ctx = document
+              .getElementById("weatherGraph")
+              .getContext("2d");
+            new Chart(ctx, {
+              type: "bar",
+              data: {
+                labels: ["Temperature"],
+                datasets: [
+                  {
+                    label: "Temperature (°C)",
+                    data: [temperature],
+                    backgroundColor: ["#36A2EB"],
+                  },
+                ],
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                  },
+                },
+              },
+            });
+          };
+
+          fetchData();
+        });
+      });
+    </script>
+  </body>
+</html>

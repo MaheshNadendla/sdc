@@ -1,0 +1,48 @@
+// Function to validate registration form function validateRegistration() {
+const username = document.getElementById('username').value; const password =
+document.getElementById('password').value; if (username.trim() === '' ||
+password.trim() === '') { alert('Please enter both username and password.');
+return false; } // Additional validation logic can be added as needed return
+true; } // Function to validate login form function validateLogin() { const
+username = document.getElementById('loginUsername').value; const password =
+document.getElementById('loginPassword').value; if (username.trim() === '' ||
+password.trim() === '') { alert('Please enter both username and password.');
+return false; } // Additional validation logic can be added as needed return
+true; } Modify the HTML login and registration forms:
+<!-- Registration Form -->
+<form onsubmit="return validateRegistration()">
+  <!-- ... existing form fields ... -->
+  <button type="submit">Register</button>
+</form>
+<!-- Login Form -->
+<form onsubmit="return validateLogin()">
+  <!-- ... existing form fields ... -->
+  <button type="submit">Login</button>
+</form>
+Experiment 2: Responsive Web Application with Bootstrap Add the following
+JavaScript code to script.js: // Function to validate registration form function
+validateRegistration() { const username =
+document.getElementById('username').value; const password =
+document.getElementById('password').value; if (username.trim() === '' ||
+password.trim() === '') { alert('Please enter both username and password.');
+return false; } // Additional validation logic can be added as needed return
+true; } // Function to validate login form function validateLogin() { const
+username = document.getElementById('loginUsername').value; const password =
+document.getElementById('loginPassword').value; if (username.trim() === '' ||
+password.trim() === '') { alert('Please enter both username and password.');
+return false; } // Additional validation logic can be added as needed return
+true; } Modify the Bootstrap login and registration forms:
+<!-- Registration Form -->
+<form
+  onsubmit="return validateRegistration()"
+  class="needs-validation"
+  novalidate
+>
+  <!-- ... existing form fields ... -->
+  <button type="submit" class="btn btn-primary">Register</button>
+</form>
+<!-- Login Form -->
+<form onsubmit="return validateLogin()" class="needs-validation" novalidate>
+  <!-- ... existing form fields ... -->
+  <button type="submit" class="btn btn-primary">Login</button>
+</form>

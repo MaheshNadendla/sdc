@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css" />
+    <title>Shopping Cart</title>
+  </head>
+  <body>
+    <header class="bg-dark text-white text-center py-3">
+      <h1>Shopping Cart</h1>
+      <nav>
+        <ul class="nav justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link" href="#catalog">Catalog</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#cart">Cart</a></li>
+          <li class="nav-item"><a class="nav-link" href="#login">Login</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="#register">Register</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main class="container mt-3" id="content">
+      <!-- Content will be loaded dynamically using JavaScript -->
+    </main>
+    <!-- Bootstrap JS (optional, for certain features) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+      const catalog = [
+        { id: 1, name: "Product 1", price: 20 },
+        { id: 2, name: "Product 2", price: 30 },
+        { id: 3, name: "Product 3", price: 25 },
+      ];
+      // Function to load the catalog
+      function loadCatalog() {
+        const catalogContainer = document.getElementById("content");
+        catalogContainer.innerHTML = "<h2>Catalog</h2>";
+        catalog.forEach((product) => {
+          const productCard = document.createElement("div");
+          productCard.classList.add("product-card");
+          productCard.innerHTML = `
+<h3>${product.name}</h3>
+<p>$${product.price}</p>
+<button onclick="addToCart(${product.id})">Add to Cart</button>
+`;
+          catalogContainer.appendChild(productCard);
+        });
+      }
+      // Function to add a product to the cart
+      function addToCart(productId) {
+        // Implement cart functionality here
+        console.log(`Product ${productId} added to cart`);
+      }
+      // Initial load
+      loadCatalog();
+    </script>
+  </body>
+</html>

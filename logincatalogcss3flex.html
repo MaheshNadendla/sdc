@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Shopping Cart</title>
+
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+      nav ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+      }
+      nav li {
+        margin: 0 10px;
+      }
+      main {
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Shopping Cart</h1>
+      <nav>
+        <ul>
+          <li><a href="#catalog">Catalog</a></li>
+          <li><a href="#cart">Cart</a></li>
+          <li><a href="#login">Login</a></li>
+          <li><a href="#register">Register</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main id="content">
+      <!-- Content will be loaded dynamically using JavaScript -->
+    </main>
+
+    <script>
+      const catalog = [
+        { id: 1, name: "Product 1", price: 20 },
+        { id: 2, name: "Product 2", price: 30 },
+        { id: 3, name: "Product 3", price: 25 },
+      ];
+      // Function to load the catalog
+      function loadCatalog() {
+        const catalogContainer = document.getElementById("content");
+        catalogContainer.innerHTML = "<h2>Catalog</h2>";
+        catalog.forEach((product) => {
+          const productCard = document.createElement("div");
+          productCard.classList.add("product-card");
+          productCard.innerHTML = `
+<h3>${product.name}</h3>
+<p>$${product.price}</p>
+<button onclick="addToCart(${product.id})">Add to Cart</button>
+`;
+          catalogContainer.appendChild(productCard);
+        });
+      }
+      // Function to add a product to the cart
+      function addToCart(productId) {
+        // Implement cart functionality here
+        console.log(`Product ${productId} added to cart`);
+      }
+      // Initial load
+      loadCatalog();
+    </script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
