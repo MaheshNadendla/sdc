@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="index.css"> -->
+
+    <style>
+      body {
+        height: 100vh;
+        width: 100vw;
+      }
+      .Main {
+        width: 400px;
+        height: 400px;
+        position: absolute;
+        top: 25%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: antiquewhite;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .graph {
+        width: 400px;
+        height: 400px;
+        background-color: aqua;
+        position: relative;
+
+        position: absolute;
+        top: 75%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotateX(180deg);
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-around;
+      }
+
+      .humidity {
+        height: 0px;
+        width: 70px;
+        background-color: brown;
+      }
+      .temp {
+        height: 0px;
+        width: 70px;
+        background-color: rgb(228, 177, 39);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="Main">
+      <input type="text" class="Input" />
+      <button onclick="datasearch()">search</button><br />
+      <div class="answer"></div>
+    </div>
+    <div class="graph">
+      <div class="humidity"></div>
+      <div class="temp"></div>
+    </div>
+
+    <!-- <script src="index.js"></script> -->
+
+    <script>
+      async function datasearch() {
+        let x = document.querySelector(".Input").value;
+        let response = await fetch("index.json");
+        let data = await response.json();
+        console.log(data);
+
+        let y = data[0];
+        if (y[x]) {
+          document.querySelector(".answer").innerHTML = `
+             <span>temp : ${y[x][0].temp}</span><br>
+            <span>humidity : ${y[x][1].hum}</span>
+        `;
+
+          document.querySelector(".temp").style = `
+            height: ${y[x][0].temp * 5}px;
+            
+        `;
+          document.querySelector(".humidity").style = `
+            height: ${y[x][1].hum * 5}px;
+            
+          
+        `;
+        } else {
+          document.querySelector(".answer").innerHTML = `
+             <span>city Not found</span><br>
+            
+        `;
+
+          document.querySelector(".temp").style = `
+            height: 0px;
+            
+        `;
+          document.querySelector(".humidity").style = `
+            height: 0px;
+            
+        `;
+        }
+      }
+    </script>
+  </body>
+</html>

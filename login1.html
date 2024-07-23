@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- <link rel="stylesheet" href="login.css" /> -->
+    <title>login page</title>
+
+    <style>
+      * {
+        padding: 0px;
+        margin: 0px;
+      }
+
+      body {
+        /* background: linear-gradient(90deg,red,blue); */
+        background-color: rgba(216, 19, 52, 0.295);
+      }
+
+      .box {
+        height: 400px;
+        width: 400px;
+        background-color: aqua;
+
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        font-size: larger;
+      }
+
+      .UN {
+        margin-right: 125px;
+        padding: 10px;
+      }
+      .submit {
+        margin-top: 20px;
+        margin-left: 140px;
+        padding: 2px;
+        background-color: red;
+        cursor: pointer;
+      }
+
+      input {
+        height: 25px;
+        width: 220px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <span class="UN"> userName </span>
+
+      <input class="Input1" type="text" />
+
+      <span class="UN"> Password </span>
+
+      <input class="Input2" type="password" />
+
+      <button class="submit" onclick="Submit()">Login</button>
+    </div>
+
+    <!-- <script src="login.js"></script> -->
+
+    <script>
+      function Submit() {
+        let x = document.querySelector(".Input1").value;
+        let y = document.querySelector(".Input2").value;
+
+        if (!x || !y) {
+          alert("incorect data");
+        } else document.location = "cartalog.html";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- <link rel="stylesheet" href="weather.css" /> -->
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 90vh;
+        background-color: rgb(43, 29, 29);
+        font-family: "Roboto", sans-serif;
+      }
+
+      .BgImage {
+        height: 100dvh;
+        width: 100dvw;
+        position: absolute;
+        z-index: -1;
+        top: 0px;
+      }
+
+      .BgVedio {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+      }
+
+      .conatiner {
+        /* background: linear-gradient(135deg, #00feba,#5b548a); */
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1));
+        /* background: transparent; */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+
+        width: 350px;
+        height: auto;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        scale: 1;
+      }
+
+      .searchbox {
+        display: flex;
+        margin: 20px 60px;
+        gap: 20px;
+        align-items: center;
+      }
+      .searchbox input {
+        border: none;
+        outline: none;
+        width: 450px !important;
+        height: 30px;
+        border-radius: 5px;
+        padding-left: 10px;
+        font-size: 15px;
+      }
+      .searchbox i {
+        background-color: white;
+        padding: 8px 8px;
+        font-size: 17px;
+        border-radius: 20px;
+      }
+
+      .body {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 40px;
+      }
+
+      .body img {
+        width: 140px;
+      }
+
+      .body h2 {
+        font-size: 35px;
+        color: white;
+        font-weight: bold;
+      }
+
+      .body h3 {
+        font-size: 22px;
+        color: white;
+        font-weight: bold;
+      }
+
+      .deatil {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+        padding-bottom: 50px;
+      }
+
+      .col {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .col i {
+        font-size: 25px;
+        color: rgb(50, 45, 45);
+      }
+
+      .col h5 {
+        font-size: 18px;
+        color: white;
+      }
+      .col p {
+        font-size: 17px;
+        color: white;
+      }
+
+      .deatil {
+        display: none;
+      }
+      .body {
+        display: none;
+      }
+
+      #error {
+        text-align: center;
+        font-size: 20px;
+        color: white;
+        padding-bottom: 20px;
+        display: none;
+      }
+
+      #ColorGraph {
+        /* background: linear-gradient(135deg, #00feba,#5b548a); */
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1));
+        /* background: transparent; */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+
+        width: 350px;
+        height: auto;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        scale: 1;
+        padding: 25px;
+        margin-left: 10px;
+        display: none;
+      }
+
+      @media only screen and (max-width: 480px) {
+        body {
+          flex-direction: column;
+        }
+        .conatiner {
+          margin: 10px;
+        }
+        #ColorGraph {
+          margin: 10px;
+        }
+      }
+
+      @media only screen and (max-width: 360px) {
+        body {
+          flex-direction: column;
+        }
+        .conatiner {
+          scale: 0.9;
+          margin-bottom: 10px;
+        }
+        #ColorGraph {
+          scale: 0.9;
+          margin-bottom: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="conatiner">
+      <div class="searchbox">
+        <input type="text" placeholder="Enter city Name" id="searchinput" />
+        <button id="serchbox">search</button>
+      </div>
+
+      <h4 id="error"></h4>
+
+      <div class="body" id="body_data">
+        <h2 id="temp">22</h2>
+        <h3 id="city">New Yourk</h3>
+      </div>
+
+      <div class="deatil" id="deatil">
+        <div>
+          <div>
+            <h5 id="humidity">50%</h5>
+            <p>humidity</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <h5 id="windspeed">15 km/h</h5>
+            <p>wind speed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="Graph" id="ColorGraph">
+      <canvas id="weatherGraph2" width="300" height="200"></canvas>
+      <canvas id="weatherGraph" width="300" height="200"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- <script src="weather.js"></script> -->
+
+    <script>
+      var temp = document.getElementById("temp");
+      var cityName = document.getElementById("city");
+      var humidity = document.getElementById("humidity");
+      var windspeed = document.getElementById("windspeed");
+      var searchinput = document.getElementById("searchinput");
+      var serchbox = document.getElementById("serchbox");
+      var body_img = document.getElementById("body_img");
+      var body_data = document.getElementById("body_data");
+      var deatil = document.getElementById("deatil");
+      var error = document.getElementById("error");
+
+      let myChart, myChart2;
+
+      async function checkWeather(city) {
+        let Upi_key = "f27b269d54e4fa1e72993364a80fa8bd";
+        try {
+          let response = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${Upi_key}&units=metric`
+          );
+          if (!response.ok) {
+            throw new Error("City not found");
+          }
+          let data = await response.json();
+          console.log(data);
+
+          temp.innerHTML = Math.floor(data.main.temp) + "°C";
+          cityName.innerHTML = data.name;
+          humidity.innerHTML = data.main.humidity + "%";
+          windspeed.innerHTML = data.wind.speed + "km/h";
+          console.log(data);
+
+          body_data.style.display = "flex";
+          deatil.style.display = "flex";
+          error.style.display = "none"; // Hide error message
+
+          document.querySelector("#ColorGraph").style.display = "block";
+
+          if (myChart) {
+            myChart.destroy();
+          }
+
+          if (myChart2) {
+            myChart2.destroy();
+          }
+
+          const ctx = document.getElementById("weatherGraph").getContext("2d");
+
+          myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+              labels: ["humidity", "pressure", "grnd_level", "sea_level"],
+
+              datasets: [
+                {
+                  label: "Weather Level",
+                  data: [
+                    data.main.humidity,
+                    data.main.pressure,
+                    data.main.grnd_level,
+                    data.main.sea_level,
+                  ],
+                  backgroundColor: ["green", "red", "yellow", "pink"],
+                  borderColor: [
+                    "red",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(54, 12, 235, 1)",
+                    "rgba(54, 12, 435, 1)",
+                  ],
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true,
+                },
+              },
+            },
+          });
+
+          const ctx2 = document
+            .getElementById("weatherGraph2")
+            .getContext("2d");
+
+          myChart2 = new Chart(ctx2, {
+            type: "bar",
+            data: {
+              labels: ["temp", "mintemp", "maxtemp", "humidity"],
+              datasets: [
+                {
+                  label: "Weather Temp",
+                  data: [
+                    data.main.temp,
+                    data.main.temp_min,
+                    data.main.temp_max,
+                    data.main.humidity,
+                  ],
+                  backgroundColor: [
+                    "rgba(54, 162, 235, 1)",
+                    "aqua",
+                    "rgba(54, 12, 235, 1)",
+                    "green",
+                  ],
+                  borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 99, 132, 1)",
+                    "red",
+                  ],
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true,
+                },
+              },
+            },
+          });
+        } catch (err) {
+          error.innerHTML = err.message;
+          error.style.display = "block"; // Show error message
+          document.querySelector("#ColorGraph").style.display = "block";
+          body_data.style.display = "none";
+          deatil.style.display = "none";
+        }
+      }
+
+      serchbox.addEventListener("click", () => {
+        let cityIn = searchinput.value;
+        checkWeather(cityIn);
+      });
+    </script>
+  </body>
+</html>

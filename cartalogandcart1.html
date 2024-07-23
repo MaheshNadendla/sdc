@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catalog</title>
+    <!-- <link rel="stylesheet" href="catalog.css" /> -->
+
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+
+      .Heading {
+        padding: 15px;
+        text-align: center;
+        background-color: red;
+        font-size: larger;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        padding: 15px;
+        background-color: rgb(42, 54, 165);
+      }
+
+      .heds {
+        background-color: transparent;
+        border: none;
+        font-size: larger;
+        cursor: pointer;
+      }
+
+      .Cloths,
+      .Pants,
+      .Shirts {
+        padding: 10px;
+      }
+
+      .Shirts,
+      .Pants,
+      .Cart {
+        display: none;
+      }
+
+      .Items {
+        padding: 20px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: aqua;
+        border: 1px solid rgba(0, 0, 0, 0.13);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="Heading">Shoping cart</div>
+    <header>
+      <button onclick="Cloths()" class="heds box1">cloths</button>
+
+      <button onclick="Shirts()" class="heds box2">shits</button>
+      <button onclick="Pants()" class="heds box3">pants</button>
+      <button onclick="Cart()" class="heds box4">cart</button>
+    </header>
+
+    <div class="Shirts">
+      <div class="shit1">
+        <span>shirt1</span>
+        <span>price: 100rs</span>
+        <button onclick="Add('shirt1',100)">add</button>
+      </div>
+
+      <div class="shit2">
+        <span>shirt2</span>
+        <span>price: 100rs</span>
+        <button onclick="Add('shirt2',200)">add</button>
+      </div>
+
+      <div class="shit3">
+        <span>shirt3</span>
+        <span>price: 100rs</span>
+        <button onclick="Add('shirt3',300)">add</button>
+      </div>
+    </div>
+
+    <div class="Pants">
+      <div class="Pant1">
+        <span>pant1</span>
+        <span>price: 100rs</span>
+        <button onclick="Add('pant1',100)">add</button>
+      </div>
+
+      <div class="pant2">
+        <span>pant2</span>
+        <span>price: 100rs</span>
+        <button onclick="Add('pant2',200)">add</button>
+      </div>
+
+      <div class="pant3">
+        <span>pant3</span>
+        <span>price: 100rs</span>
+        <button onclick="Add('pant3',300)">add</button>
+      </div>
+    </div>
+
+    <div class="Cloths">
+      <div class="cloth1">
+        <span>cloth1</span>
+        <span>price: 100rs</span>
+        <button onclick="Add('cloth1',100)">add</button>
+      </div>
+
+      <div class="cloth2">
+        <span>cloth2</span>
+        <span>price: 100rs</span>
+        <button onclick="Add('cloth2',200)">add</button>
+      </div>
+
+      <div class="cloth3">
+        <span>cloth3</span>
+        <span>price: 100rs</span>
+        <button onclick="Add('cloth3',300)">add</button>
+      </div>
+    </div>
+
+    <div class="Cart">cart</div>
+
+    <!-- <script src="catalog.js"></script> -->
+
+    <script>
+      let x = document.querySelector(".Cloths");
+      let y = document.querySelector(".Shirts");
+      let z = document.querySelector(".Pants");
+
+      let a = document.querySelector(".Cart");
+
+      function Cloths() {
+        x.style = `display:block`;
+        y.style = `display:none`;
+        z.style = `display:none`;
+        a.style = `display:none`;
+      }
+
+      function Shirts() {
+        x.style = `display:none`;
+        y.style = `display:block`;
+        z.style = `display:none`;
+        a.style = `display:none`;
+      }
+
+      function Pants() {
+        x.style = `display:none`;
+        y.style = `display:none`;
+        z.style = `display:block`;
+        a.style = `display:none`;
+      }
+
+      let items = [];
+
+      let totalprice = 0;
+
+      function Cart() {
+        x.style = `display:none`;
+        y.style = `display:none`;
+        z.style = `display:none`;
+        a.style = `display:block`;
+
+        a.innerHTML = "";
+        items.forEach((element) => {
+          let line = document.createElement("div");
+
+          line.classList.add("Items");
+
+          let nm = document.createElement("span");
+
+          nm.textContent = element.name;
+
+          let pe = document.createElement("span");
+
+          pe.textContent = element.price;
+
+          let qy = document.createElement("span");
+
+          qy.textContent = element.quantity;
+
+          let btn = document.createElement("button");
+
+          btn.textContent = "remove";
+
+          btn.addEventListener("click", () => {
+            line.remove();
+            totalprice = totalprice - element.price * element.quantity;
+
+            tp.textContent = "total : " + totalprice;
+            a.appendChild(tp);
+            items = items.filter((item) => item.name !== element.name);
+          });
+
+          line.appendChild(nm);
+          line.appendChild(pe);
+          line.appendChild(qy);
+          line.appendChild(btn);
+          a.appendChild(line);
+        });
+
+        let tp = document.createElement("span");
+        tp.textContent = "total : " + totalprice;
+        a.appendChild(tp);
+
+        let pp = document.createElement("button");
+        pp.textContent = "paytoproseed";
+        pp.classList.add;
+        a.appendChild(pp);
+
+        pp.addEventListener("click", () => {
+          document.location = "Payment.html";
+        });
+      }
+
+      function Add(name, price) {
+        let c = items.find((item) => item.name == name);
+
+        if (c) {
+          c.quantity++;
+        } else {
+          items.push({ name: name, price: price, quantity: 1 });
+        }
+        totalprice = totalprice + price;
+
+        console.log(items);
+      }
+    </script>
+  </body>
+</html>
